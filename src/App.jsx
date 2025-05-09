@@ -3,6 +3,8 @@ import './App.css';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Nav, Navbar, Row, Col } from 'react-bootstrap';
 import data from './data.jsx';
+import { Routes, Route, Link } from 'react-router-dom';
+import Detail from './Detail.jsx';
 
 function App() {
   let [shoes] = useState(data);
@@ -11,23 +13,36 @@ function App() {
     <div className="App">
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="#home">Woo's Shop</Navbar.Brand>
+          <Navbar.Brand href="/">Woo's Shop</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Best Seller✨</Nav.Link>
-            <Nav.Link href="#features">New Item👀</Nav.Link>
-            <Nav.Link href="#pricing">Reviews✏️</Nav.Link>
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/detail">Details</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
 
-      <div className="main-bg"></div>
-      <Container>
-        <Row>
-          {shoes.map(function (a, i) {
-            return <Goods shoes={shoes[i]} i={i} />;
-          })}
-        </Row>
-      </Container>
+      {/* 링크 생성하는 방법 중 하나? */}
+      {/* <Link to="/">홈</Link>
+      <Link to="/detail">상세페이지</Link> */}
+
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <div className="main-bg"></div>
+              <Container>
+                <Row>
+                  {shoes.map(function (a, i) {
+                    return <Goods shoes={shoes[i]} i={i} />;
+                  })}
+                </Row>
+              </Container>
+            </>
+          }
+        />
+        <Route path="/detail" element={<Detail />} />
+      </Routes>
     </div>
   );
 }
