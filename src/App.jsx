@@ -5,10 +5,14 @@ import { Container, Nav, Navbar, Row, Col } from 'react-bootstrap';
 import data from './data.jsx';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail.jsx';
+import axios from 'axios';
 
 function App() {
-  let [shoes] = useState(data);
+  let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
+  let [morebtn, setMoreBtn] = useState(true);
+  let [btncount, setBtncount] = useState(0);
+  let [loadingUI, setLoadingUI] = useState(false);
 
   return (
     <div className="App">
@@ -51,6 +55,39 @@ function App() {
                   })}
                 </Row>
               </Container>
+              {loadingUI == true ? <Loading /> : null}
+
+              {morebtn == true ? (
+                <button
+                  onClick={() => {
+                    if (btncount >= 2) {
+                      alert('상품이 더이상 없습니다!');
+                      setMoreBtn(false);
+                      return;
+                    }
+                    let count = btncount + 1;
+                    setBtncount(count);
+                    setLoadingUI(true);
+                    axios
+                      .get(
+                        'https://codingapple1.github.io/shop/data' +
+                          (count + 1) +
+                          '.json'
+                      )
+                      .then((result) => {
+                        let newShoes = [...shoes, ...result.data];
+                        setShoes(newShoes);
+                        setLoadingUI(false);
+                      })
+                      .catch(() => {
+                        setLoadingUI(false);
+                        console.log('실패함');
+                      });
+                  }}
+                >
+                  더보기
+                </button>
+              ) : null}
             </>
           }
         />
@@ -65,24 +102,6 @@ function App() {
           <Route path="two" element={<div>생일기념 쿠폰받기</div>} />
         </Route>
       </Routes>
-    </div>
-  );
-}
-
-function About() {
-  return (
-    <div>
-      <h4>회사정보임</h4>
-      <Outlet></Outlet>
-    </div>
-  );
-}
-
-function Event() {
-  return (
-    <div>
-      <h4>오늘의 이벤트</h4>
-      <Outlet></Outlet>
     </div>
   );
 }
@@ -102,6 +121,32 @@ function Goods(props) {
       <h5>{props.shoes.title}</h5>
       <p>{props.shoes.price}</p>
     </Col>
+  );
+}
+
+function Loading() {
+  return (
+    <div>
+      <h4>로딩 중입니다아ㅏㅏ</h4>
+    </div>
+  );
+}
+
+function About() {
+  return (
+    <div>
+      <h4>회사정보임</h4>
+      <Outlet></Outlet>
+    </div>
+  );
+}
+
+function Event() {
+  return (
+    <div>
+      <h4>오늘의 이벤트</h4>
+      <Outlet></Outlet>
+    </div>
   );
 }
 
