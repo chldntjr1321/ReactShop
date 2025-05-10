@@ -9,3 +9,9 @@
   text-align: center;
   letter-spacing: -0.8px;
 }
+
+.alert alert-warning {
+  background: lightgoldenrodyellow;
+  text-align: center;
+  padding: 10px;
+}

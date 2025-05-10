@@ -47,7 +47,7 @@ function App() {
               <Container>
                 <Row>
                   {shoes.map(function (a, i) {
-                    return <Goods shoes={shoes[i]} i={i} />;
+                    return <Goods shoes={shoes[i]} i={i} navigate={navigate} />;
                   })}
                 </Row>
               </Container>
@@ -94,6 +94,9 @@ function Goods(props) {
         src={
           'https://codingapple1.github.io/shop/shoes' + (props.i + 1) + '.jpg'
         }
+        onClick={() => {
+          props.navigate('/detail/' + props.i);
+        }}
         width="80%"
       />
       <h5>{props.shoes.title}</h5>
