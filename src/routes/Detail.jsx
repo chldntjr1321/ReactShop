@@ -15,12 +15,21 @@ function Detail(props) {
     return x.id == id;
   });
   let [alert, setAlert] = useState(true);
+  let [input, setInput] = useState('');
 
   useEffect(() => {
-    setTimeout(() => {
+    let a = setTimeout(() => {
       setAlert(false);
     }, 2000);
+    return () => {
+      clearTimeout(a);
+    };
   }, []);
+  useEffect(() => {
+    {
+      isNaN(input) ? window.alert('그러지마세요') : null;
+    }
+  }, [input]);
 
   return (
     <div className="container">
@@ -48,6 +57,12 @@ function Detail(props) {
             width="100%"
           />
         </div>
+        <input
+          style={{ width: '50%', display: 'block', margin: '0 auto' }}
+          onChange={(e) => {
+            setInput(e.target.value);
+          }}
+        />
         <div className="col-md-6">
           <h4 className="pt-5">{findId.title}</h4>
           <p>{findId.content}</p>
