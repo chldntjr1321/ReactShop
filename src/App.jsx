@@ -108,7 +108,7 @@ function App() {
 
 function Goods(props) {
   return (
-    <Col sm>
+    <Col sm={4}>
       <img
         src={
           'https://codingapple1.github.io/shop/shoes' + (props.i + 1) + '.jpg'
