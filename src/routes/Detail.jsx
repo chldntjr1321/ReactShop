@@ -1,13 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import Nav from 'react-bootstrap/Nav';
-
-// let YellowBtn = styled.button`
-//   background: ${(props) => props.bg};
-//   color: ${(props) => (props.bg == 'blue' ? 'white' : 'black')};
-//   padding: 10px;
-// `;
+import { Nav } from 'react-bootstrap';
 
 function Detail(props) {
   let { id } = useParams();
@@ -17,6 +10,7 @@ function Detail(props) {
   let [alert, setAlert] = useState(true);
   let [input, setInput] = useState('');
   let [tab, setTab] = useState(0);
+  let [fade2, setFade2] = useState('');
 
   useEffect(() => {
     let a = setTimeout(() => {
@@ -31,14 +25,23 @@ function Detail(props) {
       isNaN(input) ? window.alert('그러지마세요') : null;
     }
   }, [input]);
+  useEffect(() => {
+    let a = setTimeout(() => {
+      setFade2('end');
+    }, 100);
+
+    return () => {
+      clearTimeout(a);
+      setFade2('');
+    };
+  }, []);
 
   return (
-    <div className="container">
+    <div className={`container start ${fade2}`}>
       {alert == true ? (
         <div className="alert alert-warning">2초 이내 구매시 할인</div>
       ) : null}
-      {/* <YellowBtn bg="blue">버튼</YellowBtn>
-      <YellowBtn bg="orange">버튼</YellowBtn> */}
+
       <div className="row">
         <div className="col-md-6">
           <img
@@ -101,14 +104,22 @@ function Detail(props) {
   );
 }
 function TabContent({ tab }) {
-  // if (tab == 0) {
-  //   return <div>내용0</div>;
-  // } else if (tab == 1) {
-  //   return <div>내용1</div>;
-  // } else if (tab == 2) {
-  //   return <div>내용2</div>;
-  // }
-  return [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab];
+  let [fade, setFade] = useState('');
+  useEffect(() => {
+    let a = setTimeout(() => {
+      setFade('end');
+    }, 100);
+
+    return () => {
+      clearTimeout(a);
+      setFade('');
+    };
+  }, [tab]);
+  return (
+    <div className={`start ${fade}`}>
+      {[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab]}
+    </div>
+  );
 }
 
 export default Detail;

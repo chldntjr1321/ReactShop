@@ -5,6 +5,7 @@ import { Container, Nav, Navbar, Row, Col } from 'react-bootstrap';
 import data from './data.jsx';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail.jsx';
+import Cart from './routes/Cart.jsx';
 import axios from 'axios';
 
 function App() {
@@ -29,10 +30,17 @@ function App() {
             </Nav.Link>
             <Nav.Link
               onClick={() => {
-                navigate('/detail');
+                navigate('/detail/0');
               }}
             >
               Details
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                navigate('/cart');
+              }}
+            >
+              Cart
             </Nav.Link>
           </Nav>
         </Container>
@@ -91,7 +99,9 @@ function App() {
             </>
           }
         />
+
         <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="*" element={<div>없는 페이지요</div>} />
         <Route path="/about" element={<About />}>
           <Route path="member" element={<div>멤버임</div>} />
