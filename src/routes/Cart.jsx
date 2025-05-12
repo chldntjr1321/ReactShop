@@ -1,8 +1,15 @@
 import { Table } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeName } from './../store';
 
 function Cart() {
+  let state = useSelector((state) => state);
+  let cart = useSelector((state) => state.cart);
+  let dispacth = useDispatch();
+
   return (
     <div>
+      {state.user}의 장바구니
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -13,12 +20,23 @@ function Cart() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>안녕</td>
-            <td>안녕</td>
-            <td>안녕</td>
-          </tr>
+          {cart.map((a, i) => (
+            //return이랑 중괄호는 동시에 생략 가능
+            <tr key={i}>
+              <td>1</td>
+              <td>{cart[i].name}</td>
+              <td>{cart[i].count}</td>
+              <td>
+                <button
+                  onClick={() => {
+                    dispacth(changeName());
+                  }}
+                >
+                  +
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </Table>
     </div>
