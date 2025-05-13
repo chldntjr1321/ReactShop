@@ -17,7 +17,7 @@ let cart = createSlice({
         matchId.count++;
       } else {
         state.push(action.payload);
-      }
+      } // matchId ? matchId.count++ : state.push(action.payload) 도 가능은 하지만 sideEffect 발생 ➡️ 추천 ❌
     },
     deleteItem(state, action) {
       let findIndex = state.findIndex((state) => state.id == action.payload);
