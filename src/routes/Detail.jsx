@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { addItem } from '../store/cartSlice.jsx';
 
 function Detail(props) {
   let { id } = useParams();
@@ -11,6 +13,7 @@ function Detail(props) {
   let [input, setInput] = useState('');
   let [tab, setTab] = useState(0);
   let [fade2, setFade2] = useState('');
+  let dispatch = useDispatch();
 
   useEffect(() => {
     let a = setTimeout(() => {
@@ -63,7 +66,21 @@ function Detail(props) {
           <h4 className="pt-5">{findId.title}</h4>
           <p>{findId.content}</p>
           <p>{findId.price}</p>
-          <button className="btn btn-danger">주문하기</button>
+          <button
+            className="btn btn-danger"
+            onClick={() => {
+              dispatch(
+                addItem({
+                  id: findId.id,
+                  name: findId.title,
+                  count: 1,
+                })
+              );
+              window.alert('상품이 장바구니에 추가되었습니다!');
+            }}
+          >
+            주문하기
+          </button>
         </div>
       </div>
 
