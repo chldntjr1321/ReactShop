@@ -38,6 +38,14 @@ function Detail(props) {
       setFade2('');
     };
   }, []);
+  useEffect(() => {
+    let jsonObj = localStorage.getItem('watched');
+    jsonObj = JSON.parse(jsonObj);
+    jsonObj.push(findId.id);
+    jsonObj = new Set(jsonObj);
+    jsonObj = Array.from(jsonObj);
+    localStorage.setItem('watched', JSON.stringify(jsonObj));
+  }, []);
 
   return (
     <div className={`container start ${fade2}`}>

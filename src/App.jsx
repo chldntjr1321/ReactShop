@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Nav, Navbar, Row, Col } from 'react-bootstrap';
@@ -14,6 +14,12 @@ function App() {
   let [morebtn, setMoreBtn] = useState(true);
   let [btncount, setBtncount] = useState(0);
   let [loadingUI, setLoadingUI] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem('watched')) {
+      return;
+    } else localStorage.setItem('watched', JSON.stringify([]));
+  }, []);
 
   return (
     <div className="App">
@@ -56,15 +62,22 @@ function App() {
           element={
             <>
               <div className="main-bg"></div>
+
               <Container>
                 <Row>
                   {shoes.map(function (a, i) {
-                    return <Goods shoes={shoes[i]} i={i} navigate={navigate} />;
+                    return (
+                      <Goods
+                        shoes={shoes[i]}
+                        i={i}
+                        navigate={navigate}
+                        key={i}
+                      />
+                    );
                   })}
                 </Row>
               </Container>
               {loadingUI == true ? <Loading /> : null}
-
               {morebtn == true ? (
                 <button
                   onClick={() => {
@@ -116,20 +129,20 @@ function App() {
   );
 }
 
-function Goods(props) {
+function Goods({ shoes, i, navigate }) {
   return (
-    <Col sm={4}>
+    <Col
+      sm={4}
+      onClick={() => {
+        navigate('/detail/' + i);
+      }}
+    >
       <img
-        src={
-          'https://codingapple1.github.io/shop/shoes' + (props.i + 1) + '.jpg'
-        }
-        onClick={() => {
-          props.navigate('/detail/' + props.i);
-        }}
+        src={'https://codingapple1.github.io/shop/shoes' + (i + 1) + '.jpg'}
         width="80%"
       />
-      <h5>{props.shoes.title}</h5>
-      <p>{props.shoes.price}</p>
+      <h5>{shoes.title}</h5>
+      <p>{shoes.price}</p>
     </Col>
   );
 }
