@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { addItem } from '../store/cartSlice.jsx';
+import { useLike } from '../hooks/like.jsx';
+import { useUser } from '../hooks/username.jsx';
 
 function Detail(props) {
   let { id } = useParams();
@@ -47,12 +49,23 @@ function Detail(props) {
     localStorage.setItem('watched', JSON.stringify(jsonObj));
   }, []);
 
+  let [like, addLike] = useLike();
+  let name = useUser();
+
   return (
     <div className={`container start ${fade2}`}>
       {alert == true ? (
         <div className="alert alert-warning">2초 이내 구매시 할인</div>
       ) : null}
-
+      {name}
+      {like}
+      <span
+        onClick={() => {
+          addLike();
+        }}
+      >
+        ❤️
+      </span>
       <div className="row">
         <div className="col-md-6">
           <img
@@ -91,7 +104,6 @@ function Detail(props) {
           </button>
         </div>
       </div>
-
       <Nav variant="tabs" defaultActiveKey="link0">
         <Nav.Item>
           <Nav.Link
